@@ -11,8 +11,16 @@ router.get("/", function (req, res) {
 });
 
 router.post("/", function (req, res) {
-  const city = req.body.city;
+  let city = req.body.city;
+
   Cities.insert(city, function (err, result) {
+    if (err) return res.json(err);
+    return res.json(result);
+  });
+});
+router.delete("/:id", function (req, res) {
+  let id = req.params.id;
+  Cities.remove(id, function (err, result) {
     if (err) return res.json(err);
     return res.json(result);
   });

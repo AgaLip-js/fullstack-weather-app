@@ -4,6 +4,8 @@
   "description": "fullstack weather-app",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "npm start --prefix client-app",
     "server": "nodemon server-app"
   },
   "repository": {
