@@ -9,10 +9,10 @@ class Weather {
       json: true,
     })
       .then(function (res) {
-        callback(res);
+        callback(null, res);
       })
       .catch(function (err) {
-        callback({ error: "Could not reach OpenWeatherMap API." });
+        callback(err);
       });
   }
 }

@@ -4,6 +4,7 @@ import cloud from "../assets/cloud.svg";
 import snow from "../assets/snow.svg";
 import sun from "../assets/sun.svg";
 import water from "../assets/water.svg";
+import axios from "axios";
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -61,23 +62,23 @@ const StyledBar = styled.div`
 `;
 const LandingPage = ({ getCityList }) => {
   const [newCityName, setNewCityName] = useState("");
-  const handleInputChange = async (e) => {
-    setNewCityName(e.target.value);
+  const handleInputChange = (e) => {
+    let value = e.target.value.trim();
+    if (value) {
+      setNewCityName(e.target.value);
+    }
   };
   const handleAddCity = () => {
-    fetch("/api/cities", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ city: newCityName }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
+    if (newCityName) {
+      axios({
+        method: "post",
+        url: "/api/cities",
+        data: { city: newCityName },
+      }).then(({ data }) => {
         getCityList();
         setNewCityName("");
       });
+    }
   };
 
   return (
@@ -87,6 +88,7 @@ const LandingPage = ({ getCityList }) => {
         <StyledText>Enter the city and I will show you the weather</StyledText>
         <StyledBar>
           <StyledInput
+            type="text"
             placeholder="Enter the city..."
             value={newCityName}
             onChange={handleInputChange}

@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledWrapper = styled.div``;
+const StyledWrapper = styled.div`
+  margin: 20px;
+  text-align: center;
+`;
 const StyledGrid = styled.div`
   display: grid;
   grid-template-columns: auto auto;
@@ -10,6 +13,7 @@ const StyledGrid = styled.div`
   border: solid 1px #c8c8c8;
   padding: 15px;
   border-radius: 4px;
+  text-align: left;
 `;
 const StyledHeader = styled.div`
   text-align: center;
@@ -38,9 +42,18 @@ const StyledButton = styled.button`
   text-transform: uppercase;
   cursor: pointer;
 `;
-const Weather = (props) => {
-  const { data } = props;
-  if (!data) return <div></div>;
+const Weather = ({ data, handleRemoveCity, myId, text }) => {
+  if (!data)
+    return (
+      <div style={{ textAlign: "center" }}>
+        <p>{text}</p>
+        {text !== "" && (
+          <StyledButton onClick={() => handleRemoveCity(myId)}>
+            Remove
+          </StyledButton>
+        )}
+      </div>
+    );
   return (
     <>
       <StyledWrapper>
@@ -70,7 +83,8 @@ const Weather = (props) => {
           <p>Max Temp</p>
           <p>{Math.floor((data.main.temp_max - 32) * (5 / 9))}&deg;C</p>
         </StyledGrid>
-        <StyledButton onClick={() => props.handleRemoveCity(props.myId)}>
+
+        <StyledButton onClick={() => handleRemoveCity(myId)}>
           Remove
         </StyledButton>
       </StyledWrapper>

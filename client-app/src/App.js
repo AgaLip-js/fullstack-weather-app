@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import LandingPage from "./components/LandingPage";
 import styled from "styled-components";
 import Weather from "./components/Weather";
+import axios from "axios";
 
 const StyledCurrentWeather = styled.h2`
   margin: 20px;
@@ -42,38 +43,47 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [cityList, setCityList] = useState([]);
   const [myId, setMyId] = useState(null);
+  const [text, setText] = useState("");
 
   const getCityList = () => {
-    fetch("/api/cities")
-      .then((res) => res.json())
-      .then((res) => {
-        setCityList(res);
-      });
+    axios
+      .get("/api/cities")
+      .then(({ data }) => {
+        setCityList(data);
+      })
+      .catch((err) => {});
   };
 
   const getWeather = (city) => {
-    fetch(`/api/weather/${city}`)
-      .then((res) => res.json())
-      .then((weather) => {
-        setWeather(weather);
+    axios
+      .get(`/api/weather/${city}`)
+      .then(({ data }) => {
+        setWeather(data);
+        setText("");
+      })
+      .catch((err) => {
+        setWeather(null);
+        setText("Nie ma takiego miasta");
       });
   };
   const handleRemoveCity = (id) => {
-    fetch(`/api/cities/${id}`, {
-      method: "delete",
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(cityList.filter((city) => city.id !== id));
-        console.log(myId);
-        setCityList(cityList.filter((city) => city.id !== id));
-      });
+    axios.delete(`/api/cities/${id}`).then(({ data }) => {
+      setCityList(cityList.filter((city) => city.id !== id));
+      getCityList();
+      setWeather(null);
+      setText("");
+    });
   };
 
   const handleChangeCity = (e) => {
-    const x = document.querySelector(`.${e.target.value}`).id;
-    setMyId(x);
-    getWeather(e.target.value);
+    if (e.target.value !== "Select a city") {
+      getWeather(e.target.value);
+      const x = document.querySelector(`.${e.target.value}`).id;
+      setMyId(x);
+    } else {
+      setWeather(null);
+      setText("");
+    }
   };
 
   useEffect(() => {
@@ -88,10 +98,11 @@ function App() {
       <StyledWrapper>
         <StyledCurrentWeather>Current Weather</StyledCurrentWeather>
         <StyledInput type="select" onChange={handleChangeCity}>
-          {cityList.length === 0 ? (
+          {cityList.length === 0 && (
             <StyledOption>No cities added yet</StyledOption>
-          ) : (
-            <StyledOption>Select a city</StyledOption>
+          )}
+          {cityList.length > 0 && (
+            <StyledOption id="selectOption">Select a city</StyledOption>
           )}
           {cityList.map((city) => (
             <StyledOption id={city.id} key={city.id} className={city.city_name}>
@@ -103,6 +114,8 @@ function App() {
           data={weather}
           handleRemoveCity={handleRemoveCity}
           myId={myId}
+          cityList={cityList}
+          text={text}
         />
       </StyledWrapper>
     </>
