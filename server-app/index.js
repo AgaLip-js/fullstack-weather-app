@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use("/api/cities", require("./api/cities"));
 app.use("/api/weather", require("./api/weather"));
 
+app.use(express.static("client-app/build"));
 if (ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client-app/build")));
   app.use((req, res) => {
