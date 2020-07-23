@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -18,10 +19,15 @@ const StyledTitle = styled.h2`
   color: white;
   padding: 20px;
 `;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
 const Navbar = () => {
   return (
     <StyledWrapper>
-      <StyledTitle>Weather App</StyledTitle>
+      <StyledLink to="/">
+        <StyledTitle>Weather App</StyledTitle>
+      </StyledLink>
     </StyledWrapper>
   );
 };

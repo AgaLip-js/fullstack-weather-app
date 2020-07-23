@@ -5,6 +5,7 @@ import LandingPage from "./components/LandingPage";
 import styled from "styled-components";
 import Weather from "./components/Weather";
 import axios from "axios";
+import { BrowserRouter } from "react-router-dom";
 
 const StyledCurrentWeather = styled.h2`
   margin: 20px;
@@ -63,7 +64,7 @@ function App() {
       })
       .catch((err) => {
         setWeather(null);
-        setText("Nie ma takiego miasta");
+        setText("There is no such city...try again");
       });
   };
   const handleRemoveCity = (id) => {
@@ -93,31 +94,37 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Navbar />
-      <LandingPage getCityList={getCityList} />
-      <StyledWrapper>
-        <StyledCurrentWeather>Current Weather</StyledCurrentWeather>
-        <StyledInput type="select" onChange={handleChangeCity}>
-          {cityList.length === 0 && (
-            <StyledOption>No cities added yet</StyledOption>
-          )}
-          {cityList.length > 0 && (
-            <StyledOption id="selectOption">Select a city</StyledOption>
-          )}
-          {cityList.map((city) => (
-            <StyledOption id={city.id} key={city.id} className={city.city_name}>
-              {city.city_name}
-            </StyledOption>
-          ))}
-        </StyledInput>
-        <Weather
-          data={weather}
-          handleRemoveCity={handleRemoveCity}
-          myId={myId}
-          cityList={cityList}
-          text={text}
-        />
-      </StyledWrapper>
+      <BrowserRouter>
+        <Navbar />
+        <LandingPage getCityList={getCityList} />
+        <StyledWrapper>
+          <StyledCurrentWeather>Current Weather</StyledCurrentWeather>
+          <StyledInput type="select" onChange={handleChangeCity}>
+            {cityList.length === 0 && (
+              <StyledOption>No cities added yet</StyledOption>
+            )}
+            {cityList.length > 0 && (
+              <StyledOption id="selectOption">Select a city</StyledOption>
+            )}
+            {cityList.map((city) => (
+              <StyledOption
+                id={city.id}
+                key={city.id}
+                className={city.city_name}
+              >
+                {city.city_name}
+              </StyledOption>
+            ))}
+          </StyledInput>
+          <Weather
+            data={weather}
+            handleRemoveCity={handleRemoveCity}
+            myId={myId}
+            cityList={cityList}
+            text={text}
+          />
+        </StyledWrapper>
+      </BrowserRouter>
     </>
   );
 }

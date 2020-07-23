@@ -13,6 +13,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background: #c8c8c8;
+  text-align: center;
 `;
 
 const StyledTitle = styled.p`
@@ -55,10 +56,15 @@ const StyledButton = styled.button`
   line-height: inherit;
   text-transform: uppercase;
   cursor: pointer;
+  margin: 10px;
 `;
 const StyledBar = styled.div`
   display: inline-flex;
   align-items: center;
+  @media (max-width: 500px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 const LandingPage = ({ getCityList }) => {
   const [newCityName, setNewCityName] = useState("");
