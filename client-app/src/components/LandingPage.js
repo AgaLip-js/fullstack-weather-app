@@ -65,13 +65,10 @@ const StyledBar = styled.div`
 const LandingPage = ({ getCityList }) => {
   const [newCityName, setNewCityName] = useState("");
   const handleInputChange = (e) => {
-    let value = e.target.value.trim();
-    if (value) {
-      setNewCityName(e.target.value);
-    }
+    setNewCityName(e.target.value);
   };
   const handleAddCity = () => {
-    if (newCityName) {
+    if (newCityName.split(" ").join("")) {
       axios({
         method: "post",
         url: "/api/cities",
