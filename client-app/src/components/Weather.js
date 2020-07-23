@@ -60,7 +60,7 @@ const Weather = ({ data, handleRemoveCity, myId, text }) => {
         <StyledTitle>{data.name}</StyledTitle>
         <StyledHeader>
           <img
-            src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+            src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
             alt="weather icon"
           />
           <StyledSpan>{data.weather[0].main}</StyledSpan>&nbsp;
