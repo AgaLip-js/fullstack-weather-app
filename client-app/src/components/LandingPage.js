@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import cloud from "../assets/cloud.svg";
-import snow from "../assets/snow.svg";
-import sun from "../assets/sun.svg";
-import water from "../assets/water.svg";
 import axios from "axios";
 
 const StyledWrapper = styled.div`
